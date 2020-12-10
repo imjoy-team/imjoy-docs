@@ -109,7 +109,8 @@ It is easy to setup an interactive docs for your own repo. You basically need to
 
     Note: you can also link to external markdown files via their absolute URL (e.g. hosted in another repo), you need be aware that: 1) you need to use the `raw` url 2) the interactive feature won't work on that page.
  5. For Github, you also need to create an empty file named `.nojekyll` (to disable the jekyll site rendering feature of Github)
- 6. Commit and push the changes to your Github repo, and go to your git repo settings to switch on Pages service. In Github, you can click `Settings`, scroll down, you can find a section named `GitHub Pages` select your current branch `master` or `main`, then choose the `docs` folder and click `Save`. After some seconds, you can get the URL of your docs. It is recommended to also check `Enforce HTTPS`. 
+ 6. To see the result locally, you can `cd docs`, start a static server via `python3 -m http.server 8000`, you can then visit `http://localhost:8000` to see your docs.
+ 7. Commit and push the changes to your Github repo, and go to your git repo settings to switch on Pages service. In Github, you can click `Settings`, scroll down, you can find a section named `GitHub Pages` select your current branch `master` or `main`, then choose the `docs` folder and click `Save`. After some seconds, you can get the URL of your docs. It is recommended to also check `Enforce HTTPS`. 
  
  Optionally, if you have custom domain name, you can also use it, see [here](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site) for instructions.
 
