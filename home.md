@@ -86,7 +86,7 @@ In addition to that, you can also pass the following options:
 ### Make interactive docs for your own git repository
 It is easy to setup an interactive docs for your own repo. You basically need to copy a few files to your git repo and switch on the static site serving (Github Pages or Gitlab pages etc.). Here are the steps:
  1. In your git repo, create a folder named `docs` (or a different name)
- 2. Download this file `index.html` and place it under `docs`
+ 2. Download this file [index.html](https://raw.githubusercontent.com/imjoy-team/imjoy-docs/master/docs/index.html) and place it under `docs`
  3. Edit the `index.html` file, find the `Configuration` block and change accordingly:
     ```js
         //---------------------Configurations------------------------------
@@ -113,6 +113,8 @@ It is easy to setup an interactive docs for your own repo. You basically need to
  
  Optionally, if you have custom domain name, you can also use it, see [here](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site) for instructions.
 
+
+?> A complete example can be found here: https://github.com/imjoy-team/imjoy-starter/tree/master/docs
 
 ### More examples
 This is a more complete show case of all the possibilities: https://imjoy.io/docs/#/i2k_tutorial, and you know more about ImJoy plugins. The pages is rendered from this markdown file [here](https://github.com/imjoy-team/ImJoy/blob/master/docs/i2k_tutorial.md).
