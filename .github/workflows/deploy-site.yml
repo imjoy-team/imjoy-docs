@@ -15,7 +15,6 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
-      - run: echo -e "docs.imjoy.io" > ./docs/CNAME
       - name: Save build output
         uses: actions/upload-artifact@v1
         with:
