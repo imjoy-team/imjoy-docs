@@ -73,7 +73,7 @@ api.export(ImJoyPlugin())
 ### Options
 In the `ImJoyPlugin` instruction, you can pass additional options. More specifically, they can be any options for the [`<config>` block](https://imjoy.io/docs/#/development?id=ltconfiggt-block) of an ImJoy plugin.
 
-!> In there is no `<config>` block in the code (as in the above examples), you need to at least specify the `type` of the plugin.
+!> If there is no `<config>` block in the code (as in the above examples), you need to at least specify the `type` of the plugin.
 
 !> You will also need to set the correct language for your code block, for Javascript plugin, it has to be `js` or `javascript`, and for Python plugin, it has to be `py` or `python`.
 
