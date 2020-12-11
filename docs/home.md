@@ -95,7 +95,6 @@ It is easy to setup an interactive docs for your own repo. You basically need to
         const homepage = '/home.md' // the home page markdown file (relative path to the current folder)
         const name = 'ImJoy Docs' // name of this documentation
         const logo = 'https://imjoy.io/static/img/imjoy-logo-black.svg' // a logo show on the upper-left corner
-        const isCustomDomain = false // set to true if you are using a custom domain
         //--------------------------End------------------------------------
     ```
  4. In `docs` create an empty file named `_sidebar.md`, add your other markdown files into the same folder. Assuming you added a markdown file named `tutorial.md`, you can add it to the side bar by add the following line into `_sidebar.md`:
