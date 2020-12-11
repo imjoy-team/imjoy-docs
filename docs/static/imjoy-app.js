@@ -636,16 +636,11 @@ animation: spin 2s linear infinite;
                 },
                 async runCode(mode, config, code, disableScrollIntoView) {
                     // make a copy of it
-                    config = Object.assign({}, config)
+
                     this.disableScrollIntoView = disableScrollIntoView;
                     if (config.lang === 'js') config.lang = 'javascript';
                     if (config.lang === 'py') config.lang = 'python';
-                    // automatically set passive mode if there is no export statement
-                    if (config.passive === undefined) {
-                        if (code && !code.includes("api.export(")) {
-                            config.passive = true;
-                        }
-                    }
+
                     const makePluginSource = (src, config) => {
                         if (config.type && !config._parsed) {
                             const cfg = Object.assign({}, config)
@@ -674,17 +669,29 @@ animation: spin 2s linear infinite;
                         return src
                     }
 
-                    const runPluginSource = async (code, initPlugin, windowId) => {
-                        if (config.lang === 'html' && !config.type) {
+                    const runPluginSource = async (code, initPlugin, windowId, config) => {
+                        config = Object.assign({}, config);
+                        // automatically set passive mode if there is no export statement
+                        if (config.passive === undefined) {
+                            if (code && !code.includes("api.export(")) {
+                                config.passive = true;
+                            }
+                        }
+                        const isHTML = code.trim().startsWith('<')
+                        if (isHTML || (config.lang === 'html' && !config.type)) {
                             const source_config = await this.imjoy.pm.parsePluginCode(code)
-                            config.type = source_config.type;
-                            config.name = source_config.name;
+                            delete source_config.namespace
+                            for (const k of Object.keys(source_config)) {
+                                config[k] = source_config[k]
+                            }
                             config.passive = source_config.passive || config.passive;
                             config._parsed = true;
+                        } else {
+                            config._parsed = false;
                         }
                         const src = makePluginSource(code, config);
                         const progressElem = document.getElementById('progress_' + config.namespace)
-                        progressElem.style.width = `0%`;
+                        if (progressElem) progressElem.style.width = `0%`;
                         try {
                             if (config.type === 'window') {
                                 const wElem = document.getElementById(windowId)
@@ -715,7 +722,7 @@ animation: spin 2s linear infinite;
 
                             }
                         } finally {
-                            progressElem.style.width = `100%`;
+                            if (progressElem) progressElem.style.width = `100%`;
 
                         }
                     }
@@ -756,7 +763,7 @@ animation: spin 2s linear infinite;
                                         api.showProgress(editorWindow, 0);
                                         const outputContainer = document.getElementById('output_' + config.namespace)
                                         outputContainer.innerHTML = "";
-                                        pluginInEditor = await runPluginSource(content, editorWindow, null)
+                                        pluginInEditor = await runPluginSource(content, editorWindow, null, config)
                                         if (stopped) {
                                             pluginInEditor = null;
                                             return;
@@ -822,7 +829,7 @@ animation: spin 2s linear infinite;
                         if (wElem && !this.disableScrollIntoView) wElem.scrollIntoView()
                         if (config.editor_height) document.getElementById(editorWindow.config.window_id).style.height = config.editor_height;
                     } else if (mode === 'run') {
-                        await runPluginSource(code, null, config.window_id)
+                        await runPluginSource(code, null, config.window_id, config)
                     } else {
                         this.disableScrollIntoView = false;
                         throw "Unsupported mode: " + mode
