@@ -508,9 +508,12 @@ animation: spin 2s linear infinite;
                 document.getElementById("imjoy-app").style.display = "block";
                 window.imjoyApp = this;
                 window.dispatchEvent(new Event('resize'));
-                imjoyLoder.loadImJoyCore({version: "0.13.47" }).then(imjoyCore => {
+                imjoyLoder.loadImJoyCore({
+                    version: "0.13.47"
+                }).then(imjoyCore => {
                     console.log(`ImJoy Core (v${imjoyCore.VERSION}) loaded.`)
                     const me = this;
+
                     async function createWindow(_plugin, config) {
                         let output;
                         if (_plugin && _plugin.config.namespace) {
@@ -526,7 +529,19 @@ animation: spin 2s linear infinite;
                                 }
                             }
                         }
-                        const w = await imjoy.pm.createWindow(_plugin, config)
+                        let w;
+                        // fallback to grid
+                        if (config.type && config.type.startsWith('imjoy/') || config.type === 'joy') {
+                            const grid = await imjoy.pm.createWindow(_plugin, {
+                                src: "https://grid.imjoy.io/#/app",
+                                window_id: config.window_id,
+                                namespace: config.namespace
+                            })
+                            w = await grid.createWindow(config);
+                        } else {
+                            w = await imjoy.pm.createWindow(_plugin, config)
+                        }
+
                         if (output && !me.disableScrollIntoView) {
                             output.scrollIntoView();
                         }
@@ -534,6 +549,12 @@ animation: spin 2s linear infinite;
                     }
                     const imjoy = new imjoyCore.ImJoy({
                         imjoy_api: {
+                            async getPlugin(_plugin, name, config) {
+                                config = config || {}
+                                // pass the namespace to the created plugin
+                                config.namespace = config.namespace || _plugin.config.namespace;
+                                return await imjoy.pm.getPlugin(_plugin, name, config)
+                            },
                             async showStatus(_plugin, msg) {
                                 if (_plugin && _plugin.config.namespace) {
                                     if (_plugin.config.namespace) {
@@ -614,12 +635,14 @@ animation: spin 2s linear infinite;
                     })
                 },
                 async runCode(mode, config, code, disableScrollIntoView) {
+                    // make a copy of it
+                    config = Object.assign({}, config)
                     this.disableScrollIntoView = disableScrollIntoView;
                     if (config.lang === 'js') config.lang = 'javascript';
                     if (config.lang === 'py') config.lang = 'python';
                     // automatically set passive mode if there is no export statement
-                    if(config.passive===undefined){
-                        if(code && !code.includes("api.export(")){
+                    if (config.passive === undefined) {
+                        if (code && !code.includes("api.export(")) {
                             config.passive = true;
                         }
                     }
@@ -781,7 +804,7 @@ animation: spin 2s linear infinite;
                                 icon: "file-download-outline",
                                 visible: true,
                                 async callback(content) {
-                                    const fileName =  (pluginInEditor && pluginInEditor.config.name && pluginInEditor.config.name+'.imjoy.html') || config.name+'.imjoy.html' || "myPlugin.imjoy.html";
+                                    const fileName = (pluginInEditor && pluginInEditor.config.name && pluginInEditor.config.name + '.imjoy.html') || config.name + '.imjoy.html' || "myPlugin.imjoy.html";
                                     await api.exportFile(editorWindow, makePluginSource(content, config), fileName);
                                 }
                             }
