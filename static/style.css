@@ -61,12 +61,13 @@ a {
 /****** Sidebar Toggle ******/
 .sidebar-toggle {
     cursor: pointer;
+    background: #ffffffc7;
 }
 
 body .sidebar-toggle {
     background: none;
-    top: 1.5rem;
-    left: calc(300px + 1.5rem);
+    top: 0.5rem;
+    left: calc(300px + 0.5rem);
     cursor: pointer;
     width: 1.5rem;
     height: 1.5rem;
@@ -116,7 +117,7 @@ body .sidebar-toggle span:nth-child(3) {
     opacity: 1;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
     body .sidebar-toggle {
         left: 1rem;
     }
@@ -141,7 +142,7 @@ body .sidebar-toggle span:nth-child(3) {
     max-width: 1200px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
     .markdown-section {
         padding: 20px 20px 25px;
     }
