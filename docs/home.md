@@ -124,6 +124,7 @@ It is easy to setup an interactive docs for your own repo. You basically need to
 
  Optionally, if you have custom domain name, you can also use it, see [here](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site) for instructions.
 
+?> An ImJoy core will be loaded to the documentation page, if you want to specify the exact version of imjoy-core, you can change the `latest` to a specific number(e.g. `0.13.51`) in the line `window.ImJoyConfig = {"imjoy_core_version": "latest"}` in `index.html`.
 
 ### More examples
 This is a more complete show case of all the possibilities: https://imjoy.io/docs/#/i2k_tutorial, and you know more about ImJoy plugins. The pages is rendered from this markdown file [here](https://github.com/imjoy-team/ImJoy/blob/master/docs/i2k_tutorial.md).
