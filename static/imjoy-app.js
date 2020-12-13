@@ -509,7 +509,7 @@ animation: spin 2s linear infinite;
                 window.imjoyApp = this;
                 window.dispatchEvent(new Event('resize'));
                 const imjoyConfig = window.ImJoyConfig || {
-                    imjoy_core_version: "0.13.50"
+                    imjoy_core_version: "0.13.51"
                 }
                 imjoyLoder.loadImJoyCore({
                     version: imjoyConfig.imjoy_core_version || 'latest'
