@@ -75,7 +75,6 @@ class ImJoyPlugin():
 
 api.export(ImJoyPlugin())
 ```
-
 ### Options for the code block
 In the `ImJoyPlugin` instruction, you can pass additional options. More specifically, they can be any options for the [`<config>` block](https://imjoy.io/docs/#/development?id=ltconfiggt-block) of an ImJoy plugin.
 
@@ -145,3 +144,39 @@ api.createWindow({src:"https://gist.github.com/oeway/96cd0f99e87abbcf97d65a36054
 ```js
 api.createWindow({src:"https://gist.github.com/oeway/96cd0f99e87abbcf97d65a3605471130"})
 ```
+
+
+#### Embed ImJoy App in the docs
+You can also embed the ImJoy App as a plugin:
+````
+<!-- ImJoyPlugin: { "type": "web-worker"} -->
+```js
+class ImJoyPlugin{
+    async setup(){
+    }
+    async run(ctx){
+        const imjoy = await api.createWindow({src: "https://imjoy.io/#/app?workspace=sandbox&flags=quiet"});
+        await imjoy.createWindow({src: "https://kitware.github.io/itk-vtk-viewer/app/"})
+    }
+}
+api.export(new ImJoyPlugin())
+```
+````
+
+Try it below:
+<!-- ImJoyPlugin: { "type": "web-worker", "hide_code_block": true} -->
+```js
+class ImJoyPlugin{
+    async setup(){
+    }
+    async run(ctx){
+        // create an imjoy app window
+        const imjoy = await api.createWindow({src: "https://imjoy.io/#/app?workspace=sandbox&flags=quite"});
+        // use imjoy.createWindow instead of api.createWindow will make the window appear inside the embedded ImJoy App
+        await imjoy.createWindow({src: "https://kitware.github.io/itk-vtk-viewer/app/"})
+    }
+}
+api.export(new ImJoyPlugin())
+```
+
+?> We added `workspace=sandbox` and `flags=quiet` to the ImJoy app url (`https://imjoy.io/#/app?workspace=sandbox&flags=quite`), this can make sure it opens a clean workspace and without the welcome dialog.
