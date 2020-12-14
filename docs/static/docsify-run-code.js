@@ -69,7 +69,7 @@
         successText: "Done"
     };
 
-    function execute(preElm, mode, disableScrollIntoView) {
+    function execute(preElm, mode) {
         mode = mode || 'run';
         var codeElm = preElm.querySelector("code");
         const code = codeElm.textContent || codeElm.innerText;
@@ -172,9 +172,6 @@
                             statusElem.style.bottom = null
                             const editorHeight = parseInt(preElm.pluginConfig.editor_height || "600px")
                             statusElem.style.top = `${editorHeight-20}px`;
-                            // setTimeout(() => {
-                            //     preElm.scrollIntoView();
-                            // }, 500)
                         }
                     }
                 });
@@ -191,14 +188,14 @@
             const runBtn = preElm.querySelector(".docsify-run-button")
             if (runBtn) runBtn.innerHTML = "&nbsp; &nbsp; &nbsp; ";
             if (window.imjoyApp) {
-                window.imjoyApp.runCode(mode, preElm.pluginConfig, code, disableScrollIntoView).finally(() => {
+                window.imjoyApp.runCode(mode, preElm.pluginConfig, code).finally(() => {
                     loader.style.display = "none";
                     const runBtn = preElm.querySelector(".docsify-run-button")
                     if (runBtn) runBtn.innerHTML = i18n.runButtonText;
                 })
             } else {
                 window.document.addEventListener("imjoy_app_started", () => {
-                    window.imjoyApp.runCode(mode, preElm.pluginConfig, code, disableScrollIntoView).finally(() => {
+                    window.imjoyApp.runCode(mode, preElm.pluginConfig, code).finally(() => {
                         loader.style.display = "none";
                         const runBtn = preElm.querySelector(".docsify-run-button")
                         if (runBtn) runBtn.innerHTML = i18n.runButtonText;
