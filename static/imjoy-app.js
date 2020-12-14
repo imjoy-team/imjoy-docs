@@ -502,7 +502,6 @@ animation: spin 2s linear infinite;
                 fullscreen: false,
                 imjoy: null,
                 active_plugin: null,
-                disableScrollIntoView: false,
             },
             mounted() {
                 document.getElementById("imjoy-app").style.display = "block";
@@ -545,9 +544,6 @@ animation: spin 2s linear infinite;
                             w = await imjoy.pm.createWindow(_plugin, config)
                         }
 
-                        // if (output && !me.disableScrollIntoView) {
-                        //     output.scrollIntoView();
-                        // }
                         return w
                     }
                     const imjoy = new imjoyCore.ImJoy({
@@ -637,10 +633,9 @@ animation: spin 2s linear infinite;
                         passive: true,
                     })
                 },
-                async runCode(mode, config, code, disableScrollIntoView) {
+                async runCode(mode, config, code) {
                     // make a copy of it
 
-                    this.disableScrollIntoView = disableScrollIntoView;
                     if (config.lang === 'js') config.lang = 'javascript';
                     if (config.lang === 'py') config.lang = 'python';
 
@@ -829,15 +824,12 @@ animation: spin 2s linear infinite;
                             namespace: cfg.namespace
                         })
 
-                        // if (wElem && !this.disableScrollIntoView) wElem.scrollIntoView()
                         if (config.editor_height) document.getElementById(editorWindow.config.window_id).style.height = config.editor_height;
                     } else if (mode === 'run') {
                         await runPluginSource(code, null, config.window_id, config)
                     } else {
-                        this.disableScrollIntoView = false;
                         throw "Unsupported mode: " + mode
                     }
-                    this.disableScrollIntoView = false;
                 },
                 async run(plugin) {
                     let config = {};
