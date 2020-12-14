@@ -545,9 +545,9 @@ animation: spin 2s linear infinite;
                             w = await imjoy.pm.createWindow(_plugin, config)
                         }
 
-                        if (output && !me.disableScrollIntoView) {
-                            output.scrollIntoView();
-                        }
+                        // if (output && !me.disableScrollIntoView) {
+                        //     output.scrollIntoView();
+                        // }
                         return w
                     }
                     const imjoy = new imjoyCore.ImJoy({
@@ -829,7 +829,7 @@ animation: spin 2s linear infinite;
                             namespace: cfg.namespace
                         })
 
-                        if (wElem && !this.disableScrollIntoView) wElem.scrollIntoView()
+                        // if (wElem && !this.disableScrollIntoView) wElem.scrollIntoView()
                         if (config.editor_height) document.getElementById(editorWindow.config.window_id).style.height = config.editor_height;
                     } else if (mode === 'run') {
                         await runPluginSource(code, null, config.window_id, config)

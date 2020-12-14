@@ -172,9 +172,9 @@
                             statusElem.style.bottom = null
                             const editorHeight = parseInt(preElm.pluginConfig.editor_height || "600px")
                             statusElem.style.top = `${editorHeight-20}px`;
-                            setTimeout(() => {
-                                preElm.scrollIntoView();
-                            }, 500)
+                            // setTimeout(() => {
+                            //     preElm.scrollIntoView();
+                            // }, 500)
                         }
                     }
                 });
