@@ -46,10 +46,11 @@
         }
     }
     var css = `.imjoy-window{border-style: solid;border-width: 1px;color: #b3b3b3; width: 100%; max-width:100%; max-height:200vh; height: 600px;}
-    .docsify-run-button,.docsify-run-button span, .docsify-edit-button,.docsify-edit-button span{cursor:pointer;transition:all .25s ease}
-    .docsify-run-button,.docsify-edit-button{z-index:1;height: 35px;margin-right: 6px;overflow:visible;padding:.65em .8em;border:0;border-radius:0;outline:0;font-size:1em;background:var(--theme-color,grey);color:#fff;opacity:0.7}
-    .docsify-run-button span, .docsify-edit-button span{border-radius:3px;background:inherit;pointer-events:none}
-    .docsify-run-button:focus,pre:hover .docsify-run-button, .docsify-edit-button:focus,pre:hover .docsify-edit-button{opacity:1}
+    .docsify-run-button,.docsify-run-button span,.fullscreen-button,.fullscreen-button span, .docsify-edit-button,.docsify-edit-button span{cursor:pointer;transition:all .25s ease}
+    .docsify-run-button,.docsify-edit-button,.fullscreen-button{z-index:1;height: 35px;margin-right: 6px;overflow:visible;padding:.65em .8em;border:0;border-radius:0;outline:0;font-size:1em;background:var(--theme-color,grey);color:#fff;opacity:0.7}
+    .docsify-run-button span, .fullscreen-button span, .docsify-edit-button span{border-radius:3px;background:inherit;pointer-events:none}
+    .docsify-run-button:focus,pre:hover .docsify-run-button, .fullscreen-button:focus,pre:hover .fullscreen-button, .docsify-edit-button:focus,pre:hover .docsify-edit-button{opacity:1}
+
     .docsify-close-button{position: absolute;right: 4px;top: 4px;height: 42px;z-index:3;cursor:pointer;padding:.65em .8em;border:0;border-radius:0;outline:0;font-size:1em;background:var(--theme-color,grey);color:#fff;}
     .docsify-fullscreen-button{position: absolute;right: 42px;top: 4px;height: 42px;z-index:3;cursor:pointer;padding:.65em .8em;border:0;border-radius:0;outline:0;font-size:1em;background:var(--theme-color,grey);color:#fff;}
     .docsify-loader {position: absolute;left: 13px;margin-top: 5px;display: inline-block;transform: translate(-50%, -50%);transform: -webkit-translate(-50%, -50%);transform: -moz-translate(-50%, -50%);transform: -ms-translate(-50%, -50%);border: 6px solid #f3f3f3; /* Light grey */border-top: 6px solid #448aff; /* Blue */border-radius: 50%;width: 30px;height: 30px;animation: spin 2s linear infinite;}
@@ -84,6 +85,20 @@
             preElm.pluginConfig.window_id = 'code_' + id;
             preElm.pluginConfig.namespace = id;
             preElm.pluginConfig.lang = preElm.getAttribute('data-lang');
+            
+            const outputFullscreenElm = preElm.querySelector(".fullscreen-button");
+            outputFullscreenElm.onclick = ()=>{
+                const outputElem = document.getElementById('output_' + id);
+                if (outputElem.requestFullscreen) {
+                    outputElem.requestFullscreen();
+                } else if (outputElem.webkitRequestFullscreen) {
+                    /* Safari */
+                    outputElem.webkitRequestFullscreen();
+                } else if (outputElem.msRequestFullscreen) {
+                    /* IE11 */
+                    outputElem.msRequestFullscreen();
+                }
+            }
             let hideCodeBlock = preElm.pluginConfig.hide_code_block;
             if (mode === 'edit') {
                 // remove the github corner in edit mode
@@ -192,6 +207,10 @@
                     loader.style.display = "none";
                     const runBtn = preElm.querySelector(".docsify-run-button")
                     if (runBtn) runBtn.innerHTML = i18n.runButtonText;
+                    const outputElem = document.getElementById('output_' + id);
+                    if(outputElem && outputElem.children.length>0)
+                    outputFullscreenElm.style.display = "inline-block";
+                    
                 })
             } else {
                 window.document.addEventListener("imjoy_app_started", () => {
@@ -236,8 +255,10 @@
             }
             var template = ['<button class="docsify-run-button">', '<span class="label">'.concat(i18n.runButtonText, "</span>"), "</button>",
                 '<button class="docsify-edit-button">', '<span class="label">'.concat(i18n.editButtonText, "</span>"), "</button>",
-                '<div class="docsify-loader" />'
+                '<div class="docsify-loader"></div>',
+                '<button class="fullscreen-button" style="position:absolute; right:0px">+</button>'
             ].join("");
+            
             targetElms.forEach(function (elm) {
                 try {
                     const tmp = elm.previousSibling.previousSibling;
@@ -251,6 +272,7 @@
                         elm.insertAdjacentHTML("beforeEnd", template);
 
                         elm.querySelector(".docsify-loader").style.display = "none";
+                        elm.querySelector(".fullscreen-button").style.display = "none";
 
                         const codeElm = elm.querySelector("code");
                         codeElm.insertAdjacentHTML('beforeBegin', `<div class="show-code-button">+ show source code</div>`);
