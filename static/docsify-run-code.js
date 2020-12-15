@@ -203,11 +203,15 @@
 
                 }
             }
-
             document.addEventListener("fullscreenchange", function (e) {
 
                 const fullScreenMode = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
                 if (e.target === preElm) {
+                    const closeElem = document.getElementById('close_' + id)
+                    const fullscreenElm = document.getElementById('fullscreen_' + id);
+                    const editorElem = document.getElementById('code_' + id);
+                    const outputElem = document.getElementById('output_' + id);
+                    const statusElem = document.getElementById('status_' + id);
                     if (fullScreenMode) {
                         closeElem.style.display = "none";
                         fullscreenElm.style.display = "none";
