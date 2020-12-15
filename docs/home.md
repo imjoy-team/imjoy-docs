@@ -47,13 +47,13 @@ To show a window, for example an image viewer:
 ````
 <!-- ImJoyPlugin: {"type": "web-worker"} -->
 ```js
-api.createWindow({src: "https://kaibu.org/"})
+api.createWindow({src: "https://kitware.github.io/itk-vtk-viewer/app/"})
 ```
 ````
 And here is it:
 <!-- ImJoyPlugin: {"type": "web-worker"} -->
 ```js
-api.createWindow({src: "https://kaibu.org/"})
+api.createWindow({src: "https://kitware.github.io/itk-vtk-viewer/app/"})
 ```
 
 ?> You can click the "+" button to make the output window full screen.
