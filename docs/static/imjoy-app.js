@@ -610,12 +610,12 @@ animation: spin 2s linear infinite;
                             uri: "https://imjoy-team.github.io/jupyter-engine-manager/Jupyter-Engine-Manager.imjoy.html"
                         }).then((enginePlugin) => {
                             function getHashValue(key) {
-                                var matches = location.hash.match(new RegExp(key+'=([^&]*)'));
+                                var matches = location.hash.match(new RegExp(key + '=([^&]*)'));
                                 return matches ? matches[1] : null;
-                              }
+                            }
                             const engine = getHashValue('engine');
                             const spec = getHashValue('spec');
-                            if(engine){
+                            if (engine) {
                                 enginePlugin.api.createEngine({
                                     name: "MyCustomEngine",
                                     nbUrl: engine,
@@ -626,8 +626,7 @@ animation: spin 2s linear infinite;
                                 }).catch((e) => {
                                     console.error('Failed to connect to MyBinder Engine', e)
                                 })
-                            }
-                            else{
+                            } else {
                                 enginePlugin.api.createEngine({
                                     name: "MyBinder Engine",
                                     url: "https://mybinder.org",
@@ -638,7 +637,7 @@ animation: spin 2s linear infinite;
                                     console.error('Failed to connect to MyBinder Engine', e)
                                 })
                             }
-                            
+
                         })
                         document.getElementById('loading').style.display = 'none';
                     })
@@ -674,7 +673,7 @@ animation: spin 2s linear infinite;
                         if (config.type && !config._parsed) {
                             const cfg = Object.assign({}, config)
                             cfg.api_version = cfg.api_version || "0.1.8";
-                            cfg.name = cfg.name || "Plugin-" + randId();
+                            cfg.name = cfg.name || (config.id && "Plugin-" + config.id) || "Plugin-" + randId();
                             cfg.description = cfg.description || "[TODO: describe this plugin with one sentence.]"
                             cfg.tags = cfg.tags || []
                             cfg.version = cfg.version || "0.1.0"

@@ -82,6 +82,7 @@
 
             const id = randId();
             preElm.pluginConfig = preElm.pluginConfig || {};
+            preElm.pluginConfig.id = id;
             preElm.pluginConfig.window_id = 'code_' + id;
             preElm.pluginConfig.namespace = id;
             preElm.pluginConfig.lang = preElm.getAttribute('data-lang');
