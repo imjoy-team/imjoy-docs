@@ -609,15 +609,36 @@ animation: spin 2s linear infinite;
                         imjoy.pm.reloadPluginRecursively({
                             uri: "https://imjoy-team.github.io/jupyter-engine-manager/Jupyter-Engine-Manager.imjoy.html"
                         }).then((enginePlugin) => {
-                            enginePlugin.api.createEngine({
-                                name: "MyBinder Engine",
-                                url: "https://mybinder.org",
-                                spec: "oeway/imjoy-binder-image/master"
-                            }).then(() => {
-                                console.log('Binder Engine connected!')
-                            }).catch((e) => {
-                                console.error('Failed to connect to MyBinder Engine', e)
-                            })
+                            function getHashValue(key) {
+                                var matches = location.hash.match(new RegExp(key+'=([^&]*)'));
+                                return matches ? matches[1] : null;
+                              }
+                            const engine = getHashValue('engine');
+                            const spec = getHashValue('spec');
+                            if(engine){
+                                enginePlugin.api.createEngine({
+                                    name: "MyCustomEngine",
+                                    nbUrl: engine,
+                                    url: engine.split("?")[0],
+                                    spec: "oeway/imjoy-binder-image/master"
+                                }).then(() => {
+                                    console.log('Binder Engine connected!')
+                                }).catch((e) => {
+                                    console.error('Failed to connect to MyBinder Engine', e)
+                                })
+                            }
+                            else{
+                                enginePlugin.api.createEngine({
+                                    name: "MyBinder Engine",
+                                    url: "https://mybinder.org",
+                                    spec: spec || "oeway/imjoy-binder-image/master"
+                                }).then(() => {
+                                    console.log('Binder Engine connected!')
+                                }).catch((e) => {
+                                    console.error('Failed to connect to MyBinder Engine', e)
+                                })
+                            }
+                            
                         })
                         document.getElementById('loading').style.display = 'none';
                     })

@@ -85,9 +85,9 @@
             preElm.pluginConfig.window_id = 'code_' + id;
             preElm.pluginConfig.namespace = id;
             preElm.pluginConfig.lang = preElm.getAttribute('data-lang');
-            
+
             const outputFullscreenElm = preElm.querySelector(".fullscreen-button");
-            outputFullscreenElm.onclick = ()=>{
+            outputFullscreenElm.onclick = () => {
                 const outputElem = document.getElementById('output_' + id);
                 if (outputElem.requestFullscreen) {
                     outputElem.requestFullscreen();
@@ -127,6 +127,7 @@
                 const outputElem = document.getElementById('output_' + id);
                 const editorHeight = parseInt(preElm.pluginConfig.editor_height || "600px")
                 statusElem.style.top = `${editorHeight-20}px`;
+                editorElem.style.height = `${editorHeight}px`
                 closeElem.onclick = function () {
                     editorElem.parentNode.removeChild(editorElem)
 
@@ -159,7 +160,7 @@
 
                 preElm.style.overflow = "hidden";
                 outputElem.style.overflow = "auto";
-                
+
             } else {
                 // run mode
                 preElm.insertAdjacentHTML('beforeEnd', `<div id="${'progress_container_' + id}" class="docsify-progressbar-container"><div class="docsify-progressbar" style="background-color:#2196F3!important;height:3px;" id="${'progress_' + id}"> </div></div>`)
@@ -180,9 +181,9 @@
                     const runBtn = preElm.querySelector(".docsify-run-button")
                     if (runBtn) runBtn.innerHTML = i18n.runButtonText;
                     const outputElem = document.getElementById('output_' + id);
-                    if(outputElem && outputElem.children.length>0)
-                    outputFullscreenElm.style.display = "inline-block";
-                    
+                    if (outputElem && outputElem.children.length > 0)
+                        outputFullscreenElm.style.display = "inline-block";
+
                 })
             } else {
                 window.document.addEventListener("imjoy_app_started", () => {
@@ -201,9 +202,9 @@
 
                 }
             }
-            
+
             document.addEventListener("fullscreenchange", function (e) {
-                
+
                 const fullScreenMode = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
                 if (e.target === preElm) {
                     if (fullScreenMode) {
@@ -235,14 +236,13 @@
                     return
                 }
                 const outputElem = document.getElementById('output_' + id);
-                if(e.target === outputElem){
-                    if(fullScreenMode){
+                if (e.target === outputElem) {
+                    if (fullScreenMode) {
                         outputElem.style.width = "100%";
                         outputElem.style.height = "calc( 100vh - 4px )";
                         outputElem.style.display = "block";
                         // if(outputElem.children[0])outputElem.children[0].style.height = "100%";
-                    }
-                    else{
+                    } else {
                         outputElem.style.width = "100%";
                         outputElem.style.height = null;
                         outputElem.style.display = "block";
@@ -278,7 +278,7 @@
                 '<div class="docsify-loader"></div>',
                 '<button class="fullscreen-button" style="position:absolute; right:0px">+</button>'
             ].join("");
-            
+
             targetElms.forEach(function (elm) {
                 try {
                     const tmp = elm.previousSibling.previousSibling;

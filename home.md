@@ -103,7 +103,105 @@ In addition to that, you can also pass the following options:
  * `startup_mode`: String. optionsl, either `"run"` means the code block will be executed after loading the page, or `"edit"` means the code editor will be switched on after loading the page.
  * `editor_height`: String. optional, this is the default height for the code editor, it should be a number + `px`, for example: `"500px"`.
 
+### Run Python code with Pyodide or Jupyter notebook server
 
+For running Python code, you can choose either `web-python` or `native-python` as plugin type. If you choose `web-python`, then [Pyodide](https://github.com/iodide-project/pyodide) will be used to run Python directly in the browser (no server needed).
+
+Here is an example:
+````
+<!-- ImJoyPlugin: { "type": "web-python"} -->
+```python
+from imjoy import api
+
+class ImJoyPlugin():
+    async def setup(self):
+        pass
+
+    async def run(self, ctx):
+        await api.alert("Hello from a python plugin")
+
+api.export(ImJoyPlugin())
+```
+````
+<!-- ImJoyPlugin: { "type": "web-python"} -->
+```python
+from imjoy import api
+
+class ImJoyPlugin():
+    async def setup(self):
+        pass
+
+    async def run(self, ctx):
+        await api.alert("Hello from a python plugin")
+
+api.export(ImJoyPlugin())
+```
+?> You can specify python packages via `requirements`(e.g. `{"type": "web-python", "requirements": ["numpy", "pandas"]}`). However, Pyodide only support limited number of libraries, including `numpy`, `scipy`, `pandas`, `scikit-learn`, `pillow` etc.
+
+For accessing more Python libraries, you need to use another type of python which is `native-python`. In order to run it, ImJoy will need to connect to a Jupyter notebook server (JupyterHub or BinderHub). By default, it will automatically connect to MyBinder.org which is a free online Jupyter service. 
+For example, if you click the **Run** button below, wait for a while and you will be connected to a Jupyter server on MyBinder.
+<!-- ImJoyPlugin: { "type": "native-python"} -->
+```python
+from imjoy import api
+
+class ImJoyPlugin():
+    async def setup(self):
+        pass
+
+    async def run(self, ctx):
+        await api.alert("Hello from a python plugin")
+
+api.export(ImJoyPlugin())
+```
+?> MyBinder works by building a Docker image based on a specified Github Repo with specification files (e.g. `requirements.txt` for pip, or `environment.yml` for conda). The default spec is `oeway/imjoy-binder-image/master`, and you can change by pass a URL parameter named `spec` to the ImJoy docs (e.g. `https://imjoy-team.github.io/imjoy-docs/#/?spec=oeway/pyimagej-binder-image/master`)
+
+?> If you want to use your own Jupyter notebook server, you can 1) start your notebook server and obtain the URL with token 2) Pass another URL parameters with your notebook URL as `engine`, for example: `https://imjoy-team.github.io/imjoy-docs/#/?engine=http://127.0.0.1:8080/?token=fad30034546630efk3923l304s3134o20d2592a3f060f3795`.
+
+For most cases, you may want to instruct the user to setup their own Jupyter notebook server and connect to it from the interactive documentation. To do that, we recommended that you suggest them:
+ 1) Run the `pip install imjoy` command to install the Jupyter notebook and start the notebook by running `imjoy --jupyter`.
+ 2) Insert the following code block such that the user can get a prompt dialog for pasting their Jupyter server URL:
+
+````
+<!-- ImJoyPlugin: { "type": "web-worker", "hide_code_block": true} -->
+```js
+api.prompt("Please copy and paste your Jupyter notebook URL with token here").then(async (nbUrl)=>{
+    if(nbUrl){
+        try{
+            const engine = await api.getPlugin("Jupyter-Engine-Manager")
+            const config = {}
+            config.nbUrl = nbUrl
+            config.url = config.nbUrl.split("?")[0];
+            config.connected = true;
+            config.name = "MyCustomNotebook"
+            await engine.createEngine(config)
+        }
+        catch(e){
+            await api.alert("Failed to add Jupyter notebook engine, error: " + e.toString())
+        }
+    }
+})
+```
+````
+Try it below:
+<!-- ImJoyPlugin: { "type": "web-worker", "hide_code_block": true} -->
+```js
+api.prompt("Please copy and paste your Jupyter notebook URL with token here").then(async (nbUrl)=>{
+    if(nbUrl){
+        try{
+            const engine = await api.getPlugin("Jupyter-Engine-Manager")
+            const config = {}
+            config.nbUrl = nbUrl
+            config.url = config.nbUrl.split("?")[0];
+            config.connected = true;
+            config.name = "MyCustomNotebook"
+            await engine.createEngine(config)
+        }
+        catch(e){
+            await api.alert("Failed to add Jupyter notebook engine, error: " + e.toString())
+        }
+    }
+})
+```
 ### Create interactive docs for your own git repository
 It is easy to setup an interactive docs for your own repo. You basically need to copy a few files to your git repo and switch on the static site serving (Github Pages or Gitlab pages etc.).
 
