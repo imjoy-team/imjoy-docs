@@ -508,7 +508,7 @@ animation: spin 2s linear infinite;
                 window.imjoyApp = this;
                 window.dispatchEvent(new Event('resize'));
                 const imjoyConfig = window.ImJoyConfig || {
-                    imjoy_core_version: "0.13.51"
+                    imjoy_core_version: 'latest'
                 }
                 imjoyLoder.loadImJoyCore({
                     version: imjoyConfig.imjoy_core_version || 'latest'
@@ -548,11 +548,12 @@ animation: spin 2s linear infinite;
                     }
                     const imjoy = new imjoyCore.ImJoy({
                         imjoy_api: {
-                            async getPlugin(_plugin, name, config) {
-                                config = config || {}
+                            async getPlugin(_plugin, config, extra_config) {
                                 // pass the namespace to the created plugin
-                                config.namespace = config.namespace || _plugin.config.namespace;
-                                return await imjoy.pm.getPlugin(_plugin, name, config)
+                                extra_config = extra_config || {}
+                                if(!config || !config.namespace)
+                                    extra_config.namespace = extra_config.namespace || _plugin && _plugin.config.namespace;
+                                return await imjoy.pm.getPlugin(_plugin, config, extra_config)
                             },
                             async showStatus(_plugin, msg) {
                                 if (_plugin && _plugin.config.namespace) {
@@ -700,12 +701,15 @@ animation: spin 2s linear infinite;
                                     tag: config.tag,
                                     window_id: windowId,
                                     w: config.w,
-                                    h: config.h
+                                    h: config.h,
+                                    hot_reloading: config.hot_reloading
                                 })
                             } else {
-                                const plugin = await this.imjoy.pm.imjoy_api.getPlugin(null, src, {
+                                const plugin = await this.imjoy.pm.imjoy_api.getPlugin(null, { 
+                                    src,
                                     namespace: config.namespace,
-                                    tag: config.tag
+                                    tag: config.tag,
+                                    hot_reloading: config.hot_reloading
                                 })
                                 try {
                                     if (plugin.run) {
@@ -761,6 +765,7 @@ animation: spin 2s linear infinite;
                                         api.showProgress(editorWindow, 0);
                                         const outputContainer = document.getElementById('output_' + config.namespace)
                                         outputContainer.innerHTML = "";
+                                        config.hot_reloading = true;
                                         pluginInEditor = await runPluginSource(content, editorWindow, null, config)
                                         if (stopped) {
                                             pluginInEditor = null;

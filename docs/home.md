@@ -21,9 +21,10 @@ api.alert("Hello from ImJoy!")
 
 This will then be rendered as shown below. If you click the **Run** button, you should see a popup message saying `Hello from ImJoy!`.
 <!-- ImJoyPlugin: {"type": "web-worker"} -->
-```python
+```js
 api.alert("Hello from ImJoy!")
 ```
+
 You can also click the **Edit** button, and you should see a code editor. Now you can change `Hello from ImJoy!` to `Hello, <YOUR NAME>`, then click the **Run** button in the toolbar of the code editor.
 
 
@@ -41,6 +42,21 @@ class ImJoyPlugin{
 api.export(new ImJoyPlugin())
 ```
 ````
+
+To show a window, for example an image viewer:
+````
+<!-- ImJoyPlugin: {"type": "web-worker"} -->
+```js
+api.createWindow({src: "https://kaibu.org/"})
+```
+````
+And here is it:
+<!-- ImJoyPlugin: {"type": "web-worker"} -->
+```js
+api.createWindow({src: "https://kaibu.org/"})
+```
+
+?> You can click the "+" button to make the output window full screen.
 
 You can make a ImJoy plugin in Python (`type=native-python`), which be run through a Jupyter server on MyBinder.org:
 
