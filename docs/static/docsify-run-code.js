@@ -237,6 +237,7 @@
                         statusElem.style.bottom = null
                         const editorHeight = parseInt(preElm.pluginConfig.editor_height || "600px")
                         statusElem.style.top = `${editorHeight-20}px`;
+                        preElm.scrollIntoView();
                     }
                     return
                 }
@@ -244,14 +245,16 @@
                 if (e.target === outputElem) {
                     if (fullScreenMode) {
                         outputElem.style.width = "100%";
+                        outputElem._oldHeight = outputElem.style.height;
                         outputElem.style.height = "calc( 100vh - 4px )";
                         outputElem.style.display = "block";
                         // if(outputElem.children[0])outputElem.children[0].style.height = "100%";
                     } else {
                         outputElem.style.width = "100%";
-                        outputElem.style.height = null;
+                        outputElem.style.height = outputElem._oldHeight || '600px';
                         outputElem.style.display = "block";
                         // if(outputElem.children[0]) outputElem.children[0].style.height = null
+                        outputElem.scrollIntoView();
                     }
                 }
             });
