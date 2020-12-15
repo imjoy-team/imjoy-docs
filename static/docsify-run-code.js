@@ -220,7 +220,9 @@
                         editorElem.style.width = "50%";
                         editorElem.style.display = "inline-block";
                         outputElem.style.width = "50%";
+                        outputElem._oldHeight = outputElem.style.height;
                         outputElem.style.height = "calc( 100vh - 4px )";
+                        outputElem.style.minHeight = "calc( 100vh - 4px )";
                         outputElem.style.display = "inline-block";
                         statusElem.style.top = null
                         statusElem.style.bottom = "1px";
@@ -228,11 +230,12 @@
                         closeElem.style.display = "inline-block";
                         fullscreenElm.style.display = "inline-block";
                         preElm.style.padding = "3px";
+                        delete outputElem.style.minHeight;
                         editorElem.style.height = preElm.pluginConfig.editor_height || "600px";
                         editorElem.style.width = "100%";
                         editorElem.style.display = "block";
                         outputElem.style.width = "100%";
-                        outputElem.style.height = null;
+                        outputElem.style.height = outputElem._oldHeight || '600px';
                         outputElem.style.display = "block";
                         statusElem.style.bottom = null
                         const editorHeight = parseInt(preElm.pluginConfig.editor_height || "600px")
