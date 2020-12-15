@@ -551,7 +551,7 @@ animation: spin 2s linear infinite;
                             async getPlugin(_plugin, config, extra_config) {
                                 // pass the namespace to the created plugin
                                 extra_config = extra_config || {}
-                                if(!config || !config.namespace)
+                                if (!config || !config.namespace)
                                     extra_config.namespace = extra_config.namespace || _plugin && _plugin.config.namespace;
                                 return await imjoy.pm.getPlugin(_plugin, config, extra_config)
                             },
@@ -601,15 +601,26 @@ animation: spin 2s linear infinite;
                         }
                     });
                     this.imjoy = imjoy;
-                    startImJoy(this, this.imjoy).then(() => {
+                    startImJoy(this, this.imjoy).then(async () => {
                         console.log('ImJoy started.')
                         const event = new CustomEvent('imjoy_app_started', {
                             detail: imjoy
                         });
                         window.document.dispatchEvent(event)
+
                         imjoy.pm.reloadPluginRecursively({
                             uri: "https://imjoy-team.github.io/jupyter-engine-manager/Jupyter-Engine-Manager.imjoy.html"
-                        });
+                        }).then((enginePlugin) => {
+                            enginePlugin.api.createEngine({
+                                name: "MyBinder Engine",
+                                url: "https://mybinder.org",
+                                spec: "oeway/imjoy-binder-image/master"
+                            }).then(() => {
+                                console.log('Binder Engine connected!')
+                            }).catch((e) => {
+                                console.error('Failed to connect to MyBinder Engine', e)
+                            })
+                        })
                         document.getElementById('loading').style.display = 'none';
                     })
                 });
@@ -705,7 +716,7 @@ animation: spin 2s linear infinite;
                                     hot_reloading: config.hot_reloading
                                 })
                             } else {
-                                const plugin = await this.imjoy.pm.imjoy_api.getPlugin(null, { 
+                                const plugin = await this.imjoy.pm.imjoy_api.getPlugin(null, {
                                     src,
                                     namespace: config.namespace,
                                     tag: config.tag,
