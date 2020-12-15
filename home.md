@@ -187,7 +187,7 @@ class ImJoyPlugin{
     }
     async run(ctx){
         // create an imjoy app window
-        const imjoy = await api.createWindow({src: "https://imjoy.io/#/app?workspace=sandbox&flags=quite"});
+        const imjoy = await api.createWindow({src: "https://imjoy.io/#/app?workspace=sandbox&flags=quiet"});
         // use imjoy.createWindow instead of api.createWindow will make the window appear inside the embedded ImJoy App
         await imjoy.createWindow({src: "https://kitware.github.io/itk-vtk-viewer/app/"})
     }
@@ -195,4 +195,4 @@ class ImJoyPlugin{
 api.export(new ImJoyPlugin())
 ```
 
-?> We added `workspace=sandbox` and `flags=quiet` to the ImJoy app url (`https://imjoy.io/#/app?workspace=sandbox&flags=quite`), this can make sure it opens a clean workspace and without the welcome dialog.
+?> We added `workspace=sandbox` and `flags=quiet` to the ImJoy app url (`https://imjoy.io/#/app?workspace=sandbox&flags=quiet`), this can make sure it opens a clean workspace and without the welcome dialog.
