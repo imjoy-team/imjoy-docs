@@ -720,6 +720,10 @@ animation: spin 2s linear infinite;
                         const src = makePluginSource(code, config);
                         const progressElem = document.getElementById('progress_' + config.namespace)
                         if (progressElem) progressElem.style.width = `0%`;
+                        // disable hot reloading for passive plugin
+                        if(config.passive){
+                            config.hot_reloading = false
+                        }
                         try {
                             if (config.type === 'window') {
                                 const wElem = document.getElementById(windowId)
