@@ -45,7 +45,7 @@
             style.appendChild(document.createTextNode(css));
         }
     }
-    var css = `.imjoy-window{border-style: solid;border-width: 1px;color: #b3b3b3; width: 100%; max-width:100%; max-height:200vh; height: 600px;}
+    var css = `.imjoy-window{border-style: solid;border-width: 1px;color: #b3b3b3; width: 100%; max-width:100%; max-height:200vh; height: 100%;}
     .docsify-run-button,.docsify-run-button span,.fullscreen-button,.fullscreen-button span, .docsify-edit-button,.docsify-edit-button span{cursor:pointer;transition:all .25s ease}
     .docsify-run-button,.docsify-edit-button,.fullscreen-button{z-index:1;height: 35px;margin-right: 6px;overflow:visible;padding:.65em .8em;border:0;border-radius:0;outline:0;font-size:1em;background:var(--theme-color,grey);color:#fff;opacity:0.7}
     .docsify-run-button span, .fullscreen-button span, .docsify-edit-button span{border-radius:3px;background:inherit;pointer-events:none}
@@ -159,37 +159,7 @@
 
                 preElm.style.overflow = "hidden";
                 outputElem.style.overflow = "auto";
-                document.addEventListener("fullscreenchange", function (e) {
-                    const fullScreenMode = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
-                    if (e.target === preElm) {
-                        if (fullScreenMode) {
-                            closeElem.style.display = "none";
-                            fullscreenElm.style.display = "none";
-                            preElm.style.padding = "0";
-                            editorElem.style.height = "calc( 100vh - 4px )";
-                            editorElem.style.width = "50%";
-                            editorElem.style.display = "inline-block";
-                            outputElem.style.width = "50%";
-                            outputElem.style.height = "calc( 100vh - 4px )";
-                            outputElem.style.display = "inline-block";
-                            statusElem.style.top = null
-                            statusElem.style.bottom = "1px";
-                        } else {
-                            closeElem.style.display = "inline-block";
-                            fullscreenElm.style.display = "inline-block";
-                            preElm.style.padding = "3px";
-                            editorElem.style.height = preElm.pluginConfig.editor_height || "600px";
-                            editorElem.style.width = "100%";
-                            editorElem.style.display = "block";
-                            outputElem.style.width = "100%";
-                            outputElem.style.height = null;
-                            outputElem.style.display = "block";
-                            statusElem.style.bottom = null
-                            const editorHeight = parseInt(preElm.pluginConfig.editor_height || "600px")
-                            statusElem.style.top = `${editorHeight-20}px`;
-                        }
-                    }
-                });
+                
             } else {
                 // run mode
                 preElm.insertAdjacentHTML('beforeEnd', `<div id="${'progress_container_' + id}" class="docsify-progressbar-container"><div class="docsify-progressbar" style="background-color:#2196F3!important;height:3px;" id="${'progress_' + id}"> </div></div>`)
@@ -197,6 +167,8 @@
                 preElm.insertAdjacentHTML('beforeEnd', `<div id="${'code_' + id}"></div><div id="${'output_' + id}"></div>`)
                 codeElm.style.display = "block";
                 showCodeBtn.style.display = 'none';
+                const outputElem = document.getElementById('output_' + id);
+                outputElem.style.overflow = 'auto';
             }
             const loader = preElm.querySelector(".docsify-loader")
             loader.style.display = "inline-block";
@@ -229,7 +201,55 @@
 
                 }
             }
-
+            
+            document.addEventListener("fullscreenchange", function (e) {
+                
+                const fullScreenMode = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+                if (e.target === preElm) {
+                    if (fullScreenMode) {
+                        closeElem.style.display = "none";
+                        fullscreenElm.style.display = "none";
+                        preElm.style.padding = "0";
+                        editorElem.style.height = "calc( 100vh - 4px )";
+                        editorElem.style.width = "50%";
+                        editorElem.style.display = "inline-block";
+                        outputElem.style.width = "50%";
+                        outputElem.style.height = "calc( 100vh - 4px )";
+                        outputElem.style.display = "inline-block";
+                        statusElem.style.top = null
+                        statusElem.style.bottom = "1px";
+                    } else {
+                        closeElem.style.display = "inline-block";
+                        fullscreenElm.style.display = "inline-block";
+                        preElm.style.padding = "3px";
+                        editorElem.style.height = preElm.pluginConfig.editor_height || "600px";
+                        editorElem.style.width = "100%";
+                        editorElem.style.display = "block";
+                        outputElem.style.width = "100%";
+                        outputElem.style.height = null;
+                        outputElem.style.display = "block";
+                        statusElem.style.bottom = null
+                        const editorHeight = parseInt(preElm.pluginConfig.editor_height || "600px")
+                        statusElem.style.top = `${editorHeight-20}px`;
+                    }
+                    return
+                }
+                const outputElem = document.getElementById('output_' + id);
+                if(e.target === outputElem){
+                    if(fullScreenMode){
+                        outputElem.style.width = "100%";
+                        outputElem.style.height = "calc( 100vh - 4px )";
+                        outputElem.style.display = "block";
+                        // if(outputElem.children[0])outputElem.children[0].style.height = "100%";
+                    }
+                    else{
+                        outputElem.style.width = "100%";
+                        outputElem.style.height = null;
+                        outputElem.style.display = "block";
+                        // if(outputElem.children[0]) outputElem.children[0].style.height = null
+                    }
+                }
+            });
         } catch (err) {
             console.error("docsify-run-code: ".concat(err));
         }

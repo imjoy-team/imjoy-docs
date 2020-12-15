@@ -525,7 +525,7 @@ animation: spin 2s linear infinite;
                                     output = document.createElement('div')
                                     output.id = randId();
                                     output.classList.add('imjoy-window');
-
+                                    outputContainer.style.height = "600px";
                                     outputContainer.appendChild(output)
                                     config.window_id = output.id
                                 }
