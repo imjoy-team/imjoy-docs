@@ -83,7 +83,7 @@
             const id = randId();
             preElm.pluginConfig = preElm.pluginConfig || {};
             preElm.pluginConfig.id = id;
-            preElm.pluginConfig.window_id = 'code_' + id;
+
             preElm.pluginConfig.namespace = id;
             preElm.pluginConfig.lang = preElm.getAttribute('data-lang');
 
@@ -116,6 +116,7 @@
                 for (const elm of customElements) {
                     elm.style.display = "none";
                 }
+                preElm.pluginConfig.window_id = 'code_' + id;
                 preElm.insertAdjacentHTML('afterBegin', `<div id="${'code_' + id}"></div><div id="${'output_' + id}"></div>`)
                 preElm.insertAdjacentHTML('afterBegin', `<button class="docsify-close-button" id="${'close_' + id}">x</button>`);
                 preElm.insertAdjacentHTML('afterBegin', `<button class="docsify-fullscreen-button" id="${'fullscreen_' + id}">+</button>`);
@@ -164,6 +165,7 @@
 
             } else {
                 // run mode
+                preElm.pluginConfig.window_id = 'output_' + id;
                 preElm.insertAdjacentHTML('beforeEnd', `<div id="${'progress_container_' + id}" class="docsify-progressbar-container"><div class="docsify-progressbar" style="background-color:#2196F3!important;height:3px;" id="${'progress_' + id}"> </div></div>`)
                 preElm.insertAdjacentHTML('beforeEnd', `<div class="docsify-status" style="margin-top: 8px;" id="${'status_' + id}"/>`);
                 preElm.insertAdjacentHTML('beforeEnd', `<div id="${'code_' + id}"></div><div id="${'output_' + id}"></div>`)
