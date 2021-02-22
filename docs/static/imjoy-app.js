@@ -545,6 +545,7 @@ animation: spin 2s linear infinite;
                         return w
                     }
                     const imjoy = new imjoyCore.ImJoy({
+                        expose_api: true,
                         imjoy_api: {
                             async getPlugin(_plugin, config, extra_config) {
                                 // pass the namespace to the created plugin
