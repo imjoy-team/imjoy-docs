@@ -130,6 +130,7 @@
                 const editorHeight = parseInt(preElm.pluginConfig.editor_height || "600px")
                 statusElem.style.top = `${editorHeight-20}px`;
                 editorElem.style.height = `${editorHeight}px`
+                editorElem.style.paddingBottom = '10px';
                 closeElem.onclick = function () {
                     editorElem.parentNode.removeChild(editorElem)
 
