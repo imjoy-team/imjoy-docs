@@ -58,10 +58,10 @@ api.createWindow({src: "https://kitware.github.io/itk-vtk-viewer/app/"})
 
 ?> You can click the "+" button to make the output window full screen.
 
-You can make a ImJoy plugin in Python (`type=native-python`), which be run through a Jupyter server on MyBinder.org:
+You can make a ImJoy plugin in Python (`type=web-python` for Pyodide running in the browser or `type=native-python` for running with remote servers at mybinder.org), which be run through a Jupyter server on MyBinder.org:
 
 ````
-<!-- ImJoyPlugin: { "type": "native-python"} -->
+<!-- ImJoyPlugin: { "type": "web-python"} -->
 ```python
 from imjoy import api
 
@@ -78,7 +78,7 @@ api.export(ImJoyPlugin())
 The above code block will be rendered as shown below. Running it will take a few seconds
 since the necessary libraries are installed.
 
-<!-- ImJoyPlugin: { "type": "native-python"} -->
+<!-- ImJoyPlugin: { "type": "web-python"} -->
 ```python
 from imjoy import api
 
