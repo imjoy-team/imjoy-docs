@@ -251,12 +251,12 @@ As an additional example, you can even embed slides into this docs with ImJoy pl
 ````
 <!-- ImJoyPlugin: {"type": "web-worker", "hide_code_block": true, "editor_height": "200px"} -->
 ```js
-api.createWindow({src:"https://gist.github.com/oeway/96cd0f99e87abbcf97d65a3605471130"})
+api.createWindow({src:"https://gist.githubusercontent.com/oeway/96cd0f99e87abbcf97d65a3605471130/raw/95b98eb6a658b397c536d87ec7574219735de9df/SlidesDemo.imjoy.html"})
 ```
 ````
 <!-- ImJoyPlugin: {"type": "web-worker", "hide_code_block": true, "editor_height": "200px"} -->
 ```js
-api.createWindow({src:"https://gist.github.com/oeway/96cd0f99e87abbcf97d65a3605471130"})
+api.createWindow({src:"https://gist.githubusercontent.com/oeway/96cd0f99e87abbcf97d65a3605471130/raw/95b98eb6a658b397c536d87ec7574219735de9df/SlidesDemo.imjoy.html"})
 ```
 
 
